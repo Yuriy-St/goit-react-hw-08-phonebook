@@ -2,8 +2,7 @@ import ContactForm from 'components/ContactForm';
 import { Subtitle } from 'components/Subtitle/Subtitle.styled';
 import ContactList from 'components/ContactList';
 import Filter from 'components/Filter/Filter';
-import { Container, Title } from 'components/Layout/Layout.styled';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 export default function PhoneBookScreen() {
   return (
@@ -16,7 +15,9 @@ export default function PhoneBookScreen() {
       }}
     >
       <Box>
-        <Title>Phonebook</Title>
+        <Typography component="h1" variant="h4" mb={2}>
+          Phonebook
+        </Typography>
         <ContactForm />
       </Box>
 

@@ -1,5 +1,4 @@
 import { useFormik } from 'formik';
-import { nanoid } from 'nanoid';
 
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
@@ -20,9 +19,6 @@ export default function ContactForm() {
     if (!isValidContact(name, contacts)) return;
     addContact({ name, phone });
   };
-
-  const nameInputId = nanoid();
-  const numberInputId = nanoid();
 
   const formik = useFormik({
     initialValues: {
@@ -49,7 +45,6 @@ export default function ContactForm() {
         }}
       >
         <TextField
-          autoComplete="given-name"
           id="name"
           name="name"
           label="Name"
@@ -70,41 +65,10 @@ export default function ContactForm() {
           error={formik.touched.phone && Boolean(formik.errors.phone)}
           helperText={formik.touched.phone && formik.errors.phone}
         />
-        <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+        <Button type="submit" variant="contained" sx={{ mt: 1, mb: 2 }}>
           Add contact
         </Button>
       </Box>
     </Box>
-
-    // <Formik
-    //   initialValues={initialValues}
-    //   validationSchema={validationSchema}
-    //   onSubmit={(contact, { resetForm }) => {
-    //     handleSubmit(contact);
-    //     resetForm();
-    //   }}
-    // >
-    //   {({ errors }) => (
-    //     <StyledForm>
-    //       <div>
-    //         <Label htmlFor={nameInputId}>Name</Label>
-    //         <Input id={nameInputId} type="text" name="name" />
-    //         {errors.name && (
-    //           <ErrorMessage name="name" component={ValidationMessage} />
-    //         )}
-    //       </div>
-
-    //       <div>
-    //         <Label htmlFor={numberInputId}>Number</Label>
-    //         <Input id={numberInputId} type="text" name="phone" />
-    //         {errors.phone && (
-    //           <ErrorMessage name="phone" component={ValidationMessage} />
-    //         )}
-    //       </div>
-
-    //       <ButtonSubmit type="submit">Add contact</ButtonSubmit>
-    //     </StyledForm>
-    //   )}
-    // </Formik>
   );
 }

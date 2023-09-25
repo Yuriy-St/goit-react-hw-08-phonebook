@@ -1,4 +1,3 @@
-import ContactList from 'components/ContactList';
 import { Route, Routes } from 'react-router-dom';
 import PublicRoute from 'components/PublicRoute';
 import PrivateRoute from 'components/PrivateRoute';

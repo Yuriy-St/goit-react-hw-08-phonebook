@@ -1,6 +1,4 @@
 import styled from '@emotion/styled';
-import { flexCol } from 'components/Base/Flex.styled';
-import { container } from 'components/Base/Container.styled';
 import { text } from 'constants/theme';
 
 export const Container = styled.div`
