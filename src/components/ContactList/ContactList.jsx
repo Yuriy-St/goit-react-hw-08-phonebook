@@ -1,9 +1,7 @@
 import Contact from 'components/Contact/Contact';
 import { ContactListStyled } from './ContactList.styled';
-import { selectFilter } from 'redux/selectors';
-import { useSelector } from 'react-redux';
-import { useGetContactsQuery } from 'redux/contactsApi';
-import { useMemo } from 'react';
+import { useGetContactsQuery } from 'redux/contacts/contactsApi';
+import useFilter from 'hooks/useFilter';
 
 export default function ContactList() {
   const {
@@ -15,19 +13,7 @@ export default function ContactList() {
     error,
   } = useGetContactsQuery();
 
-  const filter = useSelector(selectFilter);
-
-  const filteredContacts = useMemo(() => {
-    const filterNormalized = filter.toLowerCase();
-
-    const filtered = filter
-      ? contacts.filter(({ name }) =>
-          name.toLowerCase().includes(filterNormalized)
-        )
-      : contacts;
-
-    return filtered || [];
-  }, [contacts, filter]);
+  const filteredContacts = useFilter(contacts);
 
   if (isLoading || isFetching) return <div>Loading...</div>;
 

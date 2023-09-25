@@ -4,8 +4,8 @@ import { container } from 'components/Base/Container.styled';
 import { text } from 'constants/theme';
 
 export const Container = styled.div`
-  ${flexCol}
-  ${container}
+  display: flex;
+  flex-direction: column;
   label: appContainer;
   padding-top: 2.5em;
   padding-bottom: 2.5em;

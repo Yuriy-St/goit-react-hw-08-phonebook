@@ -1,22 +1,36 @@
-import { Container, Title } from './App.styled';
-import ContactForm from 'components/ContactForm/ContactForm';
-import { Subtitle } from 'components/Subtitle/Subtitle.styled';
 import ContactList from 'components/ContactList';
-import Filter from 'components/Filter/Filter';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import PublicRoute from 'components/PublicRoute';
+import PrivateRoute from 'components/PrivateRoute';
+import Layout from 'components/Layout';
+import LoginScreen from 'screens/LoginScreen';
+import RegisterScreen from 'screens/RegisterScreen';
+import HomeScreen from 'screens/HomeScreen';
+import NotFoundScreen from 'screens/NotFoundScreen';
+import PhoneBookScreen from 'screens/PoneBookScreen';
 
 export default function App() {
+  const location = useLocation();
+  console.log(location);
   return (
-    <Container>
-      <div>
-        <Title>Phonebook</Title>
-        <ContactForm />
-      </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<PrivateRoute component={<HomeScreen />} />} />
+        <Route
+          path="login"
+          element={<PublicRoute component={<LoginScreen />} />}
+        />
+        <Route
+          path="register"
+          element={<PublicRoute component={<RegisterScreen />} />}
+        />
 
-      <div>
-        <Subtitle>Contacts</Subtitle>
-        <Filter />
-        <ContactList />
-      </div>
-    </Container>
+        <Route
+          path="contacts"
+          element={<PrivateRoute component={<PhoneBookScreen />} />}
+        />
+        <Route path="*" element={<NotFoundScreen />} />
+      </Route>
+    </Routes>
   );
 }
