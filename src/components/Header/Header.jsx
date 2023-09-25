@@ -9,8 +9,12 @@ import { LinkBox } from './Header.styled';
 export default function ButtonAppBar() {
   return (
     <AppBar position="static">
-      <Container>
-        <Toolbar sx={{ justifyContent: 'space-between' }} component="nav">
+      <Container maxWidth="sm">
+        <Toolbar
+          sx={{ justifyContent: 'space-between' }}
+          component="nav"
+          disableGutters={true}
+        >
           <LinkBox>
             <Link color="inherit" underline="none" component={NavLink} to="/">
               <Typography>Home</Typography>

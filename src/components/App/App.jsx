@@ -1,5 +1,5 @@
 import ContactList from 'components/ContactList';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import PublicRoute from 'components/PublicRoute';
 import PrivateRoute from 'components/PrivateRoute';
 import Layout from 'components/Layout';
@@ -10,8 +10,6 @@ import NotFoundScreen from 'screens/NotFoundScreen';
 import PhoneBookScreen from 'screens/PoneBookScreen';
 
 export default function App() {
-  const location = useLocation();
-  console.log(location);
   return (
     <Routes>
       <Route path="/" element={<Layout />}>

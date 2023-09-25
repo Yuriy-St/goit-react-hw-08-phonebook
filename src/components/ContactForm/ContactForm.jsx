@@ -1,93 +1,110 @@
-import { ErrorMessage, Formik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from 'formik';
+import { nanoid } from 'nanoid';
+
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+
+import { isValidContact, validationSchema } from './validation';
 
 import {
-  ButtonSubmit,
-  Input,
-  Label,
-  StyledForm,
-  ValidationMessage,
-} from './ContactForm.styled';
-import { nanoid } from 'nanoid';
-import { useAddContactMutation, useGetContactsQuery } from 'redux/contactsApi';
-
-const validationSchema = Yup.object().shape({
-  name: Yup.string()
-    .matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/, {
-      message:
-        "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan",
-      excludeEmptyString: true,
-    })
-    .required('Required'),
-  phone: Yup.string()
-    .matches(
-      /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
-      {
-        message:
-          'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +',
-        excludeEmptyString: true,
-      }
-    )
-    .required('Required'),
-});
+  useAddContactMutation,
+  useGetContactsQuery,
+} from 'redux/contacts/contactsApi';
 
 export default function ContactForm() {
   const { data: contacts } = useGetContactsQuery();
   const [addContact] = useAddContactMutation();
 
-  const isValidContact = name => {
-    const isSameContact = contacts.some(contact => contact.name === name);
-    if (isSameContact) {
-      alert(`${name} is already in contacts!`);
-      return false;
-    }
-
-    return true;
-  };
-
   const handleSubmit = ({ name, phone }) => {
-    if (!isValidContact(name)) return;
+    if (!isValidContact(name, contacts)) return;
     addContact({ name, phone });
-  };
-
-  const initialValues = {
-    name: '',
-    phone: '',
   };
 
   const nameInputId = nanoid();
   const numberInputId = nanoid();
 
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      phone: '',
+    },
+    validationSchema: validationSchema,
+    onSubmit: (contact, { resetForm }) => {
+      handleSubmit(contact);
+      resetForm();
+    },
+  });
+
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={(contact, { resetForm }) => {
-        handleSubmit(contact);
-        resetForm();
-      }}
-    >
-      {({ errors }) => (
-        <StyledForm>
-          <div>
-            <Label htmlFor={nameInputId}>Name</Label>
-            <Input id={nameInputId} type="text" name="name" />
-            {errors.name && (
-              <ErrorMessage name="name" component={ValidationMessage} />
-            )}
-          </div>
+    <Box maxWidth="xs">
+      <Box
+        component="form"
+        onSubmit={formik.handleSubmit}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: 2,
+          maxWidth: 600,
+        }}
+      >
+        <TextField
+          autoComplete="given-name"
+          id="name"
+          name="name"
+          label="Name"
+          value={formik.values.name}
+          fullWidth
+          autoFocus
+          onChange={formik.handleChange}
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
+        />
+        <TextField
+          id="phone"
+          name="phone"
+          label="Number"
+          value={formik.values.phone}
+          fullWidth
+          onChange={formik.handleChange}
+          error={formik.touched.phone && Boolean(formik.errors.phone)}
+          helperText={formik.touched.phone && formik.errors.phone}
+        />
+        <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+          Add contact
+        </Button>
+      </Box>
+    </Box>
 
-          <div>
-            <Label htmlFor={numberInputId}>Number</Label>
-            <Input id={numberInputId} type="text" name="phone" />
-            {errors.number && (
-              <ErrorMessage name="phone" component={ValidationMessage} />
-            )}
-          </div>
+    // <Formik
+    //   initialValues={initialValues}
+    //   validationSchema={validationSchema}
+    //   onSubmit={(contact, { resetForm }) => {
+    //     handleSubmit(contact);
+    //     resetForm();
+    //   }}
+    // >
+    //   {({ errors }) => (
+    //     <StyledForm>
+    //       <div>
+    //         <Label htmlFor={nameInputId}>Name</Label>
+    //         <Input id={nameInputId} type="text" name="name" />
+    //         {errors.name && (
+    //           <ErrorMessage name="name" component={ValidationMessage} />
+    //         )}
+    //       </div>
 
-          <ButtonSubmit type="submit">Add contact</ButtonSubmit>
-        </StyledForm>
-      )}
-    </Formik>
+    //       <div>
+    //         <Label htmlFor={numberInputId}>Number</Label>
+    //         <Input id={numberInputId} type="text" name="phone" />
+    //         {errors.phone && (
+    //           <ErrorMessage name="phone" component={ValidationMessage} />
+    //         )}
+    //       </div>
+
+    //       <ButtonSubmit type="submit">Add contact</ButtonSubmit>
+    //     </StyledForm>
+    //   )}
+    // </Formik>
   );
 }
