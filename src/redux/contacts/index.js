@@ -1,1 +1,1 @@
-export * from './contactsAPI.js';
+export * from './contactsApi.js';

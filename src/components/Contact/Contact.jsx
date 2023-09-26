@@ -6,7 +6,7 @@ import {
   Phone,
   StyledContact,
 } from './Contact.styled';
-import { useDeleteContactByIdMutation } from 'redux/contacts/contactsAPI';
+import { useDeleteContactByIdMutation } from 'redux/contacts/contactsApi';
 export default function Contact({ id, name, number }) {
   const [deleteContact] = useDeleteContactByIdMutation();
 

@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 import Contact from 'components/Contact/Contact';
 import { ContactListStyled } from './ContactList.styled';
-import { useGetContactsQuery } from 'redux/contacts/contactsAPI';
+import { useGetContactsQuery } from 'redux/contacts/contactsApi';
 import useFilter from 'hooks/useFilter';
 
 export default function ContactList() {

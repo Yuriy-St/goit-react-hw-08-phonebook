@@ -9,7 +9,7 @@ import { isValidContact, validationSchema } from './validation';
 import {
   useAddContactMutation,
   useGetContactsQuery,
-} from 'redux/contacts/contactsAPI';
+} from 'redux/contacts/contactsApi';
 
 export default function ContactForm() {
   const { data: contacts } = useGetContactsQuery();

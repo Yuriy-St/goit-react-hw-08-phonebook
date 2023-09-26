@@ -15,7 +15,7 @@ import storage from 'redux-persist/lib/storage';
 
 import authReducer from './auth/authSlice';
 import { filterReducer } from 'redux/filter/filterSlice';
-import { contactsAPI } from 'redux/contacts/contactsAPI';
+import { contactsAPI } from 'redux/contacts/contactsApi';
 
 // import favoritesReducer from './favorites/slice';
 // import { authApi } from './auth';
