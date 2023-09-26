@@ -1,3 +1,4 @@
+import Typography from '@mui/material/Typography';
 import Contact from 'components/Contact/Contact';
 import { ContactListStyled } from './ContactList.styled';
 import { useGetContactsQuery } from 'redux/contacts/contactsAPI';
@@ -15,7 +16,12 @@ export default function ContactList() {
 
   const filteredContacts = useFilter(contacts);
 
-  if (isLoading || isFetching) return <div>Loading...</div>;
+  if (isLoading || isFetching)
+    return (
+      <Typography component="p" variant="h3">
+        Loading...
+      </Typography>
+    );
 
   if (isSuccess) {
     return (
@@ -29,5 +35,8 @@ export default function ContactList() {
     );
   }
 
-  if (isError) return <div>{error.message}</div>;
+  if (isError)
+    return (
+      <Typography sx={{ color: 'error.main' }}>{error.message}</Typography>
+    );
 }

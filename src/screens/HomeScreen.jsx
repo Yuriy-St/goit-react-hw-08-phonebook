@@ -4,7 +4,18 @@ import { selectAuth } from 'redux/selectors';
 
 export default function HomeScreen() {
   const { user, isLoggedIn } = useSelector(selectAuth);
-  let content;
+
+  let content = (
+    <>
+      <Typography align="center" variant="h3" component="p">
+        Welcome to our Phonebook application!
+      </Typography>
+      <Typography align="center">
+        In order to start, please login or register a new user
+      </Typography>
+    </>
+  );
+
   if (isLoggedIn) {
     content = (
       <>
@@ -17,17 +28,6 @@ export default function HomeScreen() {
       </>
     );
   }
-  if (!isLoggedIn) {
-    content = (
-      <>
-        <Typography align="center" variant="h3" component="p">
-          Welcome to our Phonebook application!
-        </Typography>
-        <Typography align="center">
-          In order to start, please login or register a new user
-        </Typography>
-      </>
-    );
-  }
+
   return <Box sx={{ pt: 2 }}>{content}</Box>;
 }
