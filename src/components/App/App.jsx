@@ -26,7 +26,7 @@ export default function App() {
           path="contacts"
           element={<PrivateRoute component={<PhoneBookScreen />} />}
         />
-        <Route path="*" element={<NotFoundScreen />} />
+        <Route path="*" element={<NotFoundScreen replace />} />
       </Route>
     </Routes>
   );

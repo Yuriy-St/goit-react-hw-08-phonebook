@@ -1,6 +1,6 @@
 import Contact from 'components/Contact/Contact';
 import { ContactListStyled } from './ContactList.styled';
-import { useGetContactsQuery } from 'redux/contacts/contactsApi';
+import { useGetContactsQuery } from 'redux/contacts/contactsAPI';
 import useFilter from 'hooks/useFilter';
 
 export default function ContactList() {
@@ -21,8 +21,8 @@ export default function ContactList() {
     return (
       <>
         <ContactListStyled>
-          {filteredContacts.map(({ id, name, phone }) => (
-            <Contact key={id} id={id} name={name} phone={phone} />
+          {filteredContacts.map(({ id, name, number }) => (
+            <Contact key={id} id={id} name={name} number={number} />
           ))}
         </ContactListStyled>
       </>

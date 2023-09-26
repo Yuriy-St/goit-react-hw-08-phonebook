@@ -1,24 +1,49 @@
-// import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from 'components/Copyright';
+import { useState } from 'react';
+import { useLoginMutation } from 'redux/contacts';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setToken } from 'redux/auth';
+
+const INITIAL_STATE = {
+  email: '',
+  password: '',
+};
 
 export default function LoginScreen() {
-  const handleSubmit = event => {
+  const [formData, setFormData] = useState({ ...INITIAL_STATE });
+
+  const [login] = useLoginMutation();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleChange = event => {
+    const { name, value } = event.target;
+    setFormData(state => ({ ...state, [name]: value }));
+  };
+
+  const handleSubmit = async event => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const { data } = await login(formData);
+    if (data) {
+      dispatch(setToken(data));
+      navigate('/contacts');
+    }
+
+    reset();
+  };
+
+  const reset = () => {
+    setFormData(INITIAL_STATE);
   };
 
   return (
@@ -47,6 +72,8 @@ export default function LoginScreen() {
             id="email"
             label="Email Address"
             name="email"
+            value={formData.email}
+            onChange={handleChange}
             autoComplete="email"
             autoFocus
           />
@@ -55,14 +82,12 @@ export default function LoginScreen() {
             required
             fullWidth
             name="password"
+            value={formData.password}
+            onChange={handleChange}
             label="Password"
             type="password"
             id="password"
             autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
           />
           <Button
             type="submit"

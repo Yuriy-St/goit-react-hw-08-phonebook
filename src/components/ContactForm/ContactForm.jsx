@@ -9,21 +9,21 @@ import { isValidContact, validationSchema } from './validation';
 import {
   useAddContactMutation,
   useGetContactsQuery,
-} from 'redux/contacts/contactsApi';
+} from 'redux/contacts/contactsAPI';
 
 export default function ContactForm() {
   const { data: contacts } = useGetContactsQuery();
   const [addContact] = useAddContactMutation();
 
-  const handleSubmit = ({ name, phone }) => {
+  const handleSubmit = ({ name, number }) => {
     if (!isValidContact(name, contacts)) return;
-    addContact({ name, phone });
+    addContact({ name, number });
   };
 
   const formik = useFormik({
     initialValues: {
       name: '',
-      phone: '',
+      number: '',
     },
     validationSchema: validationSchema,
     onSubmit: (contact, { resetForm }) => {
@@ -50,20 +50,19 @@ export default function ContactForm() {
           label="Name"
           value={formik.values.name}
           fullWidth
-          autoFocus
           onChange={formik.handleChange}
           error={formik.touched.name && Boolean(formik.errors.name)}
           helperText={formik.touched.name && formik.errors.name}
         />
         <TextField
-          id="phone"
-          name="phone"
+          id="number"
+          name="number"
           label="Number"
-          value={formik.values.phone}
+          value={formik.values.number}
           fullWidth
           onChange={formik.handleChange}
-          error={formik.touched.phone && Boolean(formik.errors.phone)}
-          helperText={formik.touched.phone && formik.errors.phone}
+          error={formik.touched.number && Boolean(formik.errors.number)}
+          helperText={formik.touched.number && formik.errors.number}
         />
         <Button type="submit" variant="contained" sx={{ mt: 1, mb: 2 }}>
           Add contact
