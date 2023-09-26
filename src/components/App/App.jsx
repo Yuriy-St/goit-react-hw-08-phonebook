@@ -12,7 +12,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<PrivateRoute component={<HomeScreen />} />} />
+        <Route index element={<PublicRoute component={<HomeScreen />} />} />
         <Route
           path="login"
           element={<PublicRoute component={<LoginScreen />} />}

@@ -22,7 +22,7 @@ export default function PhoneBookScreen() {
         <ContactForm />
       </Box>
 
-      {contacts.length > 0 && (
+      {contacts?.length > 0 && (
         <Box>
           <Typography component="p" variant="h4" mb={2}>
             Contacts
